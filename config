@@ -1,0 +1,11 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	logallrefupdates = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://github.com/rdbaloch/SalesTools.git
+	push = refs/heads/master:refs/heads/master
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
