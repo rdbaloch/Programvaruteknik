@@ -12,6 +12,7 @@ public class DataCollectionBuilder {
 	private Resolution resolution;
 	private Map<String, List <MatchedDataPair>> resultData;
 	private Map<String, MatchedDataPair> finalResult;
+	
 
 	public DataCollectionBuilder(DataSource xData, DataSource yData, Resolution resolution){
 		this.resolution = resolution;
@@ -25,13 +26,38 @@ public class DataCollectionBuilder {
 	}
 
 	
-	public DataCollection getResult(){
-		return null; // toDo
+	
+/*	public Map<String, List <MatchedDataPair>> getResult(){
+		List<MatchedDataPair> matchedDataPairs = searchMatchedPair();
+		
+		resultData.put(resolution.toString(), matchedDataPairs);
+		
+		return resultData;
+	}*/
+	
+	public DataCollection getResult (){
+		List<MatchedDataPair> matchedDataPairs = searchMatchedPair();
+		
+		double sumX = 0.0;
+		double sumY = 0.0;
+		int counter = 0;
+		
+		for(MatchedDataPair pairs : matchedDataPairs){
+			counter = counter++;
+			sumX = sumX + pairs.getXvalue();
+			sumY = sumY + pairs.getYvalue();
+		}
+		
+		double averageX = (sumX/counter);
+		double averageY = (sumX/counter);
+		
+		return new DataCollection(getTitle(), xData.getName()+": " + xData.getUnit(), yData.getName()+": "+yData.getUnit(), );
+		//finalResult.put(resolution.toString(), value)
 	}
 
 	
 	public String getLocalDate (LocalDate localDate){
-		String date = null;
+		String date = "";
 
 		switch (resolution){
 		case YEAR:
@@ -47,6 +73,7 @@ public class DataCollectionBuilder {
 			break;
 
 		case WEEK:
+			date = (localDate.getDayOfWeek()) + "";
 			break;
 
 
@@ -57,7 +84,7 @@ public class DataCollectionBuilder {
 		return date;
 	}
 
-	private List searchMatchedPair(){
+	private List<MatchedDataPair> searchMatchedPair(){
 
 		ArrayList <MatchedDataPair> MatchedXY = new  ArrayList <MatchedDataPair>() ;	
 
