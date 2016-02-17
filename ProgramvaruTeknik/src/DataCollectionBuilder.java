@@ -5,85 +5,87 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * This class build a collection of data.
+ * 
+ * @author Jonas Oster
+ * @author Rashed Davodi
+ * @author Jonatan Hogberg
+ * @version 17/02 - 2016
+ */
+
 public class DataCollectionBuilder {
 
 	private DataSource xData;
 	private DataSource yData;
 	private Resolution resolution;
 	private Map<String, MatchedDataPair> finalResult;
-	
 
+	/**
+	 * This constructor defines data source 1, data source 2
+	 * and the resolution. It also creates a hashmap where the
+	 * final result will be placed
+	 */
 	public DataCollectionBuilder(DataSource xData, DataSource yData, Resolution resolution){
 		this.resolution = resolution;
 		this.xData = xData;
 		this.yData = yData;
+		finalResult = new HashMap<String, MatchedDataPair>();
 	}
 
-	
+	/**
+	 * This method fetches the title of the collection
+	 */
 	public String getTitle(){	
 		return "Title: " + xData.getName() + ", " + yData.getName();
 	}
 
-	
+	/**
+	 * This method sets the resolution of the collection
+	 */
+	public void setResolution(Resolution resolution) {
+		this.resolution = resolution;
+	}
+
+	/**
+	 * This method fetches the resolution of the collection
+	 */
+	public Resolution getResolution() {
+		return resolution;
+	}
+
+	/**
+	 * This method shows the result by calculating the average value from the pairs
+	 */
 	public DataCollection getResult(){
 		Map<String, List <MatchedDataPair>> MatchedXY = searchMatchedPair();
-		
+
 		for(Entry<String, List<MatchedDataPair>> pairs : MatchedXY.entrySet()){
 			List <MatchedDataPair> list = pairs.getValue();
 			double sumX = 0.0;
 			double sumY = 0.0;
 			int counter = 0;
-			
+
 			for(MatchedDataPair pair : list){
 				sumX = pair.getXvalue();
 				sumY = pair.getYvalue();
 				counter++;
 			}
-			
+
 			double averageX = (sumX/counter);
-			double averageY = (sumX/counter);
-			
+			double averageY = (sumY/counter);
+
 			finalResult.put(pairs.getKey(), new MatchedDataPair(averageX, averageY));
 		}
-		
-		return new DataCollection(getTitle(), xData.getName()+": " + xData.getUnit(), yData.getName()+": "+yData.getUnit(), finalResult);
-		//finalResult.put(resolution.toString(), value)
+
+		return new DataCollection(getTitle(), xData.getName()+": " + xData.getUnit(),
+				yData.getName()+": "+yData.getUnit(), finalResult);
 	}
 
-
-	
-	public static void getLocalDatePoly(Resolution res, LocalDate localDate){
-		System.out.println("" + res.getLocalDate(localDate));
-	}
-	
-//	public String getLocalDate (LocalDate localDate){
-//		String date = "";
-//
-////		switch (resolution){
-////		case YEAR:
-////			date =  ""+localDate.getYear() ;
-////			break;
-////
-////		case QUARTER:
-////			date = ((localDate.getMonthValue() /3)+1)+ "" ;
-////
-////
-////		case MONTH:
-////			date = localDate.getYear() +"-"  +localDate.getMonthValue();
-////			break;
-////
-////		case WEEK:
-////			date = (localDate.getDayOfWeek()) + "";
-////			break;
-////
-////
-////		case DAY:
-////			date = localDate.getYear()+"-"+localDate.getMonthValue()+"-"+localDate.getDayOfMonth();
-////			break;
-////		}
-////		return date;
-//	}
-
+	/**
+	 * This method search after matching data pairs. A matching pair is found 
+	 * when they have an equal key. The key is the date. 
+	 */
 	private Map<String, List <MatchedDataPair>> searchMatchedPair(){
 
 		Map<String, List <MatchedDataPair>> MatchedXY = new HashMap<String, List <MatchedDataPair>>() ;	
@@ -99,11 +101,9 @@ public class DataCollectionBuilder {
 						matchedPair.add(new MatchedDataPair(x.getValue(), y.getValue()));
 						MatchedXY.put(resolution.getLocalDate(x.getKey()), matchedPair);
 					}
-					
 				}
 			}
 		}
 		return MatchedXY;
 	}
-	
 }

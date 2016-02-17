@@ -1,10 +1,17 @@
 import java.time.LocalDate;
 
+/**
+ * This is an enumeration that defines different resolutions
+ * 
+ * @author Jonas Oster
+ * @author Rashed Davodi
+ * @author Jonatan Hogberg
+ * @version 17/02 - 2016
+ */
 
 public enum Resolution {
 
-
-	YEAR{
+	YEAR(){
 		@Override
 		public String getLocalDate (LocalDate localDate){
 			String date = "";
@@ -13,7 +20,7 @@ public enum Resolution {
 		}
 	},
 
-	QUARTER{
+	QUARTER(){
 		@Override
 		public String getLocalDate (LocalDate localDate){
 			String date = "";
@@ -49,12 +56,7 @@ public enum Resolution {
 		}
 	};
 
-
-
-
-	public abstract String getLocalDate( LocalDate localDate);{
-
-	}
+	public abstract String getLocalDate( LocalDate localDate);
 }
 
 
