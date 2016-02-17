@@ -1,4 +1,6 @@
 import java.time.LocalDate;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
 
 /**
  * This is an enumeration that defines different resolutions
@@ -24,7 +26,7 @@ public enum Resolution {
 		@Override
 		public String getLocalDate (LocalDate localDate){
 			String date = "";
-			date = ((localDate.getMonthValue() /3)+1)+ "" ;
+			date = localDate.getYear() + "-" + ((localDate.getMonthValue() / 3) + 1);
 			return date;
 		}
 	},
@@ -33,7 +35,7 @@ public enum Resolution {
 		@Override
 		public String getLocalDate (LocalDate localDate){
 			String date = "";
-			date += localDate.getYear() +"-"  +localDate.getMonthValue();
+			date = localDate.getYear() + "-" + localDate.getMonthValue();
 			return date;
 		}
 	},
@@ -42,7 +44,9 @@ public enum Resolution {
 		@Override
 		public String getLocalDate (LocalDate localDate){
 			String date = "";
-			date = (localDate.getDayOfWeek()) + "";
+			Locale locale = new Locale("sv", "SE");
+			int weekOfYear = localDate.get(WeekFields.of(locale).weekOfWeekBasedYear());
+			date = localDate.getYear() + "-" +  weekOfYear;
 			return date;
 		}
 	},
@@ -51,7 +55,7 @@ public enum Resolution {
 		@Override
 		public String getLocalDate (LocalDate localDate){
 			String date = "";
-			date = localDate.getYear()+"-"+localDate.getMonthValue()+"-"+localDate.getDayOfMonth();
+			date = localDate.getYear() +  "-" + localDate.getMonthValue() + "-" + localDate.getDayOfMonth();
 			return date;
 		}
 	};

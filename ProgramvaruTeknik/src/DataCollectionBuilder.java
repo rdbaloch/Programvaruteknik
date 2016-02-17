@@ -66,16 +66,15 @@ public class DataCollectionBuilder {
 			double sumY = 0.0;
 			int counter = 0;
 
-			for(MatchedDataPair pair : list){
-				sumX = pair.getXvalue();
-				sumY = pair.getYvalue();
+
+			for (MatchedDataPair pair : list) {
+				sumX = sumX + pair.getXvalue();
+				sumY = sumY + pair.getYvalue();
 				counter++;
+				System.out.println(pair);
 			}
 
-			double averageX = (sumX/counter);
-			double averageY = (sumY/counter);
-
-			finalResult.put(pairs.getKey(), new MatchedDataPair(averageX, averageY));
+			finalResult.put(pairs.getKey(), new MatchedDataPair((sumX / counter), (sumY / counter)));
 		}
 
 		return new DataCollection(getTitle(), xData.getName()+": " + xData.getUnit(),
